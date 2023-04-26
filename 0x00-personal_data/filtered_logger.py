@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-function filter_datum
+function filter_datum that replaces a field
 """
 import re
 from typing import List
