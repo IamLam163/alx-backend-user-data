@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-function filter_datum that replaces a field
+function filter_datum
 """
 import re
 from typing import List
@@ -9,6 +9,8 @@ from typing import List
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """returns the log message obfuscated"""
-    pattern = re.compile(
-        "(?<={0})(?:{1}[^{0}]+)+".format(separator, "|".join(fields)))
-    return pattern.sub(redaction, message)
+    # pattern = re.compile(
+    #     "(?<={0})(?:{1}[^{0}]+)+".format(separator, "|".join(fields)))
+    # return pattern.sub(redaction, message)
+    return re.sub('|'.join('(?<={}=).*?(?={})'.format(field, separator)
+                           for field in fields), redaction, message)
