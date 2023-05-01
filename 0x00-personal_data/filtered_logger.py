@@ -4,7 +4,9 @@ function filter_datum
 """
 import re
 from typing import List
+import os
 import logging
+import mysql.connector
 
 
 PII_FIELDS: tuple = ("name", "email", "phone", "ssn", "password")
@@ -49,3 +51,14 @@ def get_logger() -> logging.Logger:
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     return logger
+
+
+def get_db():
+    username = os.environ.get('PERSONAL_DATA_DB_USERNAME', 'root')
+    password = os.environ.get('PERSONAL_DATA_DB_PASSWORD', '')
+    host = os.environ.get('PERSONAL_DATA_DB_HOST', 'localhost')
+    database = os.environ.get('PERSONAL_DATA_DB_NAME')
+
+    connector = mysql.connector.connect(user=username, password=password,
+                                        host=host, database=database)
+    return connector
