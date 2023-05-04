@@ -2,6 +2,7 @@
 """
 class SessionAuth that inherits from Auth
 """
+from os import getenv
 from uuid import uuid4
 from api.v1.auth.auth import Auth
 
