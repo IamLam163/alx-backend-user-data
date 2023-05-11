@@ -46,22 +46,13 @@ class Auth:
 
     def create_session(self, email: str) -> str:
         """Create a session """
+        user = None
         try:
             user = self._db.find_user_by(email=email)
-            if user is not None:
-                gen_session_id = _generate_uuid()
-                self._db.update_user(user.id, session_id=gen_session_id)
-                return gen_session_id
-            return None
         except NoResultFound:
-            pass
-
-
-email = 'bob@bob.com'
-password = 'MyPwdOfBob'
-auth = Auth()
-
-auth.register_user(email, password)
-
-print(auth.create_session(email))
-print(auth.create_session("unknown@email.com"))
+            return None
+        if user is None:
+            return None
+        gen_session_id = _generate_uuid()
+        self._db.update_user(user.id, session_id=gen_session_id)
+        return gen_session_id
